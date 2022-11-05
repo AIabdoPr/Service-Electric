@@ -1,0 +1,26 @@
+const Routes = require("../../../../lib/pkgs/routes");
+const Environment = require("../../../../src/environment");
+
+class ApiRoutes extends Routes {
+
+  constructor() {
+    super('{{ appid }}', '/{{ appid }}');
+    Environment.addViewPath(__dirname + '/../views/{{ appid }}');
+  }
+
+  setupRoutes() {
+
+    var authGroup = this.createGroup("/auth");
+    authGroup.createRoute().get("/login").func(this.controllers.user.login);
+    authGroup.createRoute().post("/login").func(this.controllers.user.login);
+
+    var middlewaredGroup = this.middlewaredGroup("jwt");
+    middlewaredGroup.createRoute().get("").func(this.controllers.user.index);
+    middlewaredGroup.createRoute().get("/signout").func(this.controllers.user.signout);
+
+  }
+
+}
+
+
+module.exports = ApiRoutes;

@@ -1,0 +1,24 @@
+const Fake = require("../../../lib/pkgs/fake");
+
+class {{ class_name }}Fake extends Fake {
+
+  // logInfo = "some log infos";
+
+  constructor() {
+    super("{{ model_name }}");
+    this.setup();
+  }
+
+  setup() {
+    this.insert({
+      column: "column_value",
+    });
+    this.update("column_id", {
+      column: "new_column_value"
+    });
+    this.delete("column_id");
+  }
+
+}
+
+module.exports = {{ class_name }}Fake

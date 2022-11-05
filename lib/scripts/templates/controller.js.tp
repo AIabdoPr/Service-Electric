@@ -1,0 +1,17 @@
+class {{ controller_name }}Controller {
+
+  index(request, response) {
+    response.send('index');
+  }
+
+  view(request, response) {
+    response.send('view');
+  }
+
+  find(request, response) {
+    response.send('find');
+  }
+
+}
+
+module.exports = {{ controller_name }}Controller;

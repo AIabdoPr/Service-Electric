@@ -1,0 +1,37 @@
+const Routes = require('../../../../lib/pkgs/routes');
+const SocketClient = require('../../../../lib/pkgs/socket_client');
+const Environment = require('../../../../src/environment');
+
+class SocketRoutes extends Routes {
+
+  constructor() {
+    super('{{ appid }}', '/{{ appid }}');
+    const SocketIO = require('socket.io');
+    Environment.sockets.{{ appid }} = SocketIO(Environment.server, {
+      path: '/{{ appid }}-socket/',
+      cors: {
+        origin: '*',
+        allowEIO3: true,
+      },
+      allowEIO3: true,
+    });
+    Environment.sockets.{{ appid }}.on('connection', (client) => {
+      if (Environment.socketClients.{{ appid }} == undefined) Environment.socketClients.{{ appid }} = {};
+      Environment.socketClients.{{ appid }}[client.handshake.query.userId] = new SocketClient(client, '{{ appid }}', Environment.models.user);
+      Environment.socketClients.{{ appid }}[client.handshake.query.userId].addEvent('users')
+      client.on('join', (data) => {
+        console.log(data);
+      });
+    });
+    Environment.sockets.{{ appid }}.use(Environment.middlewares.{{ appid }}['socket-jwt']);
+  }
+
+  setupRoutes() {
+    this.createSocketRoute('load-users', (socketClient) => {
+      this.controllers.{{ appid }}.loadUsers(socketClient);
+    });
+  }
+
+}
+
+module.exports = SocketRoutes;

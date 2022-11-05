@@ -1,0 +1,111 @@
+
+              <div class="form-group">
+                <h5>العائلة:</h5>
+                <select class="form-control" name="family_id">
+                  <%
+                    for(const familyId in families) {
+                      const family = families[familyId];
+                  %><option value="<%= family.id %>"><%= family.name %></option>
+                  <%}%>
+                </select>
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <h5>الاسم:</h5>
+                <input type="text" class="form-control" name="firstname">
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <h5>رقم الهاتف:</h5>
+                <input type="text" class="form-control" name="phone">
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <h5>البريد الإلكتروني:</h5>
+                <input type="email" class="form-control" name="email">
+              </div>
+              <hr>
+
+              <div class="country-input" id="<%= formData.formId %>country-input">
+                <div class="country-input-name form-group"></div>
+                <div class="country-input-state form-group"></div>
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <h5>العنوان:</h5>
+                <input type="text" class="form-control" name="address">
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <div class="custom-control custom-checkbox checkbox-div">
+                  <input type="checkbox" class="custom-control-input checkbox-div-input" name="is_married" id="<%= formData.formId %>is-married">
+                  <label class="custom-control-label" for="<%= formData.formId %>is-married">متزوج</label>
+                  <br>
+                  <div class="checkbox-div-body">
+                    <div class="form-group">
+                      <h5>الأبناء (الصغار فقط بالنسبة للكبار فوق 18 عام يتم تسجيلهم مباشرة):</h5>
+                      <div id="<%= formData.formId %>user-children" class="multi-input"
+                           inputs='[{"name": "name", "text": "الاسم", "type": "text"}, {"name": "age", "text": "العمر", "type": "number"}, {"name": "level", "text": "المستوى الدراسي", "type": "text"}]'
+                           add-btn-text="إضافة الإبن">
+                        <div class="multi-input-header"></div>
+                        <div class="multi-input-body"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <h5>عامل / طالب / متقاعد:</h5>
+                <div class="select-group-tabs" id="<%= formData.formId %>user-job">
+                  <select class="form-control select-group-tabs-select" name="user-job">
+                    <option value="worker" selected>عامل</option>
+                    <option value="student">طالب</option>
+                    <option value="retired">متقاعد</option>
+                  </select>
+                  <div class="select-group-tabs-items">
+                    <div class="select-group-tabs-item selected" for="worker">
+                      <div class="form-group">
+                        <h5>المهنة:</h5>
+                        <input type="text" class="form-control" name="job_name">
+                      </div>
+                      <div class="form-group">
+                        <h5>مكان العمل:</h5>
+                        <input type="text" class="form-control" name="job_address">
+                      </div>
+                    </div>
+                    <div class="select-group-tabs-item" for="student">
+                      <div class="form-group">
+                        <h5>المدرسة او الجامعة:</h5>
+                        <input type="text" class="form-control" name="student_collage">
+                      </div>
+                      <div class="form-group">
+                        <h5>التخصص:</h5>
+                        <input type="text" class="form-control" name="student_speciality">
+                      </div>
+                      <div class="form-group">
+                        <h5>المستوى:</h5>
+                        <input type="text" class="form-control" name="student_level">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <h5>معلومات إضافية:</h5>
+                <div id="<%= formData.formId %>more-data" name="more_data" class="multi-input"
+                     inputs='[{"name": "value", "text": "المعلومة", "type": "text"}]'
+                     add-btn-text="إضافة المعلومة">
+                  <div class="multi-input-header"></div>
+                  <div class="multi-input-body"></div>
+                </div>
+              </div>
+              <hr>

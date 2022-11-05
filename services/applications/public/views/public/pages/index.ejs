@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('../src/header') %>
+    <link rel="stylesheet" href="<%= hostUrl %>/resources/admin/styles->main.css">
+    <title>تسجيل الدخول</title>
+  </head>
+  <body>
+    <form method="post" action="" class="form" novalidate>
+      <h2 class="text-center">التحقق من الحساب </h2>
+
+      <div class="form-group">
+        <h5>طريقة التحقق:</h5>
+        <div class="select-group-tabs" id="check-type">
+          <select class="form-control select-group-tabs-select" name="check_type">
+            <option value="">إختر من هنا</option>
+            <option value="email" <%= values.check_type == 'email' ? 'selected': '' %>>البريد الإلكتروني</option>
+            <option value="phone" <%= values.check_type == 'phone' ? 'selected': '' %>>رقم الهاتف</option>
+          </select>
+          <div class="select-group-tabs-items">
+            <div class="select-group-tabs-item <%= values.check_type == 'email' ? 'selected': '' %>" for="email">
+              <div class="form-group">
+                <h5>البريد الإلكتروني:</h5>
+                <input type="email" class="form-control <%= validates.email ? 'is-invalid': '' %>" name="email" value="<%= values.email %>">
+                <div class="invalid-feedback ">
+                  <%= validates.email %>
+                </div>
+              </div>
+            </div>
+            <div class="select-group-tabs-item <%= values.check_type == 'phone' ? 'selected': '' %>" for="phone">
+              <div class="form-group">
+                <h5>رقم الهاتف:</h5>
+                <input type="phone" class="form-control <%= validates.phone ? 'is-invalid': '' %>" name="phone" value="<%= values.phone %>">
+                <div class="invalid-feedback ">
+                  <%= validates.phone %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <input type="submit" class="btn form-btn btn-primary btn-lg btn-block" value="تسجيل الدخول" name="login"/>
+      <br>
+      <%- include('../src/footer') %>
+    </form>
+    <div id="alerts" class="noties topright"></div>
+    <script src="<%= hostUrl %>/resources/admin/scripts->main.js"></script>
+    <script>
+      <% alertMessages.forEach(alertMessage => {%>
+        alertMessage('account-verify',
+          '<%= alertMessage.success ? "نجاح:" : "خطأ:" %>',
+          '<%= alertMessage.message %>',
+          '<%= alertMessage.type %>');
+      <%});%>
+    </script>
+  </body>
+</html>

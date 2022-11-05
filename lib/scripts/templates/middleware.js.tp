@@ -1,0 +1,67 @@
+const JWTAuth = require("../../../..{{ dir }}/lib/pkgs/jwt_auth");
+const Middleware = require("../../../..{{ dir }}/lib/pkgs/middleware");
+
+class {{ class_name }}Middleware extends Middleware {
+
+  cookieAuthKey = '{{ auth_key }}';
+
+  constructor(cookieAuthKey = '{{ auth_key }}') {
+    super('{{ app_id }}', '{{ middleware_name }}');
+    this.cookieAuthKey = cookieAuthKey;
+  }
+
+  cookiesParser(cookieContent) {
+    var cookie = {};
+    if (cookieContent) {
+      cookieContent.split('; ').forEach(item => {
+        cookie[item.split('=')[0]] = item.split('=')[1];
+      });
+    }
+    return cookie;
+  }
+
+  verify = async (request, response) => {
+    var token = request.request.cookies[this.cookieAuthKey];
+    if (token) {
+      try {
+        var verifyData = await JWTAuth.verify(token);
+        if (verifyData && verifyData.tokenDataif (
+          for (const key in verifyData.tokenData) {
+            request.addValue(key, verifyData.tokenData[key]) ;
+          }
+          return { success: true };
+        } else {
+          return {success: false}
+        }
+      } catch (error) {
+        console.log("auth:", error);
+        return { success: false, redirectUrl: request.getRequestHostUrl() + "/auth/login" };
+      }
+    } else {
+      return { success: false, redirectUrl: request.getRequestHostUrl() + "/auth/login" };
+    }
+  };
+
+  socketVerify = async (socket, next) => {
+    var cookie = this.cookiesParser(socket.handshake.headers.cookie);
+    if (cookie[this.cookieAuthKey]) {
+      try {
+        var tokenData = await JWTAuth.verify(cookie[this.cookieAuthKey]);
+        if (tokenData && tokenData.id) {
+          socket.handshake.query.userId = tokenData.id;
+          return next();
+        } else {
+          return next(new Error("Invalid token or email"));
+        }
+      } catch (error) {
+        // return next(new Error(error.message));
+        return error.message.toString();
+      }
+    } else {
+      return next(new Error("Invalid token or email"));
+    }
+  };
+
+}
+
+module.exports = {{ class_name }}Middleware;

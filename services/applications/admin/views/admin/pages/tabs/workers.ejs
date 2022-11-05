@@ -1,0 +1,63 @@
+
+            <div id="all-workers" class="custom-table tab-view-tab-item" checkbox="true" for="workers">
+              <div class="custom-table-header">
+                <h2 class="custom-table-title">العمال</h2>
+                <% if (user.permissions.user.d) { %>
+                <div class="custom-table-header-actions">
+                  <!-- <button class="btn btn-warning need-select" action="edit" disabled>
+                    <span class="material-symbols-sharp">edit</span> Edit
+                  </button> -->
+                  <button class="btn btn-danger need-select" action="delete" disabled>
+                    <span class="material-symbols-sharp">delete</span> حذف
+                  </button>
+                </div>
+                <% } %>
+              </div>
+              <table class="table table-bordered table-condensed table-hover table-striped text-center">
+                <thead>
+                  <tr>
+                    <% if (user.permissions.user.u ||  user.permissions.user.d) { %>
+                    <th class="no-sort">
+                      <span class="custom-checkbox">
+                        <input type="checkbox" id="all-workers-select-all" class="select-all">
+                        <label for="all-workers-select-all"></label>
+                      </span>
+                    </th>
+                    <% } %>
+                    <th style="min-width: 50px; max-width: 50px;">#</th>
+                    <th style="min-width: 130px; max-width: 130px;">الاسم</th>
+                    <th style="min-width: 90px; max-width: 90px;">اسم العائلة</th>
+                    <th style="min-width: 90px; max-width: 120px;">رقم الهاتف</th>
+                    <th style="min-width: 180px;">البريد الإلكتروني</th>
+                    <!-- <th style="min-width: 80px; max-width: 80px;">العنوان</th> -->
+                    <th style="min-width: 80px; max-width: 80px;">المهنة</th>
+                    <th style="min-width: 80px; max-width: 80px;">المؤسسة</th>
+                    <th style="min-width: 120px;">سجل بتاريخ</th>
+                    <% if (user.permissions.user.r || user.permissions.user.u ||  user.permissions.user.d) { %>
+                    <th class="no-sort" style="min-width: 100px; max-width: 100px;"></th>
+                    <% } %>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <% if (user.permissions.user.u ||  user.permissions.user.d) { %>
+                    <th></th>
+                    <% } %>
+                    <th search="true">#</th>
+                    <th search="true">الاسم</th>
+                    <th search="true">اسم العائلة</th>
+                    <th search="true">رقم الهاتف</th>
+                    <th search="true">البريد الإلكتروني</th>
+                    <!-- <th search="true">العنوان</th> -->
+                    <th search="true">المهنة</th>
+                    <th search="true">المؤسسة</th>
+                    <th search="true">سجل بتاريخ</th>
+                    <% if (user.permissions.user.r || user.permissions.user.u ||  user.permissions.user.d) { %>
+                    <th></th>
+                    <% } %>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>

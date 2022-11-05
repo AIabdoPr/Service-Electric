@@ -1,0 +1,25 @@
+const TableMaker = require("../../../lib/pkgs/table_maker");
+
+class Migration {
+  
+  table;
+  // logInfo = "some log infos";
+
+  constructor() {
+    this.table = new TableMaker("{{ tb_name }}");
+    this.setupTable();
+  }
+
+  setupTable() {
+    this.table.index("id");
+    this.table.column("name").string()._length(11);
+    this.table.timestamps();
+  }
+  
+  async execute() {
+    return await this.table.execute();
+  }
+
+}
+
+module.exports = Migration

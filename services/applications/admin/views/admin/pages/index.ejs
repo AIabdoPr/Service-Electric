@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../src/header') %>
+    <title>آت بالفع</title>
+    <link rel="stylesheet" href="<%= hostUrl %>/resources/admin/styles->main.css">
+    <link rel="stylesheet" href="<%= hostUrl %>/resources/admin/styles->dashboard.css">
+  </head>
+  <body auto-display="false">
+    <div id="body-loading" class="loading show">
+      <div class="loading-box">
+        <img class="loading-img" src="<%= hostUrl %>/resources/admin/media->loading.gif">
+        <p class="loading-message"></p>
+      </div>
+    </div>
+    <div id="body-content" class="hide">
+      <div id="dashboard">
+        <div class="topbar">
+          <div class="topbar-logo">
+            <img src="<%= hostUrl %>/resources/general/media->logo.png">
+            <h3><span class="danger">آت -</span><span class="success"> بالفع</span> </h3>
+          </div>
+          <div class="topbar-actions">
+            <div class="dropdown dropdown-selecetion" id="person-dropdown">
+              <div class="btn btn-primary btn-icon dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="material-symbols-sharp">person</span>
+              </div>
+              <div class="dropdown-menu">
+                <div class="short-profile">
+                  <img src="<%= hostUrl %>/resources/admin/media->admin.png">
+                  <span>
+                    <h2><%= admin.user.firstname.split(' بن ')[0] %> <%= admin.user.family.name %></h2>
+                  </span>
+                </div>
+                <!-- <div class="dropdown-divider"></div> -->
+                <!-- <div class="dropdown-item" value="account"></div> -->
+                <div class="dropdown-divider"></div>
+                <a href="<%= hostUrl %>/admin/logout" class="dropdown-item">تسجيل الخروج</a>
+              </div>
+            </div>
+            <!-- <div class="dropdown" id="notifications-dropdown">
+              <button type="button" class="btn btn-primary btn-icon dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="material-symbols-sharp">notifications</span>
+              </button>
+              <div class="dropdown-menu">
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="main">
+          <div class="sidebar">
+            <div id="users" class="sidebar-item">
+              <span class="material-symbols-sharp">person</span>
+              <h3>الأشخاص</h3>
+            </div>
+            <div id="students" class="sidebar-item">
+              <span class="material-symbols-sharp">school</span>
+              <h3>الطالب</h3>
+            </div>
+            <div id="retirees" class="sidebar-item">
+              <span class="material-symbols-sharp">person</span>
+              <h3>المتقاعدين</h3>
+            </div>
+            <div id="workers" class="sidebar-item">
+              <span class="material-symbols-sharp">engineering</span>
+              <h3>العمال</h3>
+            </div>
+            <% if (admin.permissions.user.c) { %>
+            <div id="add-user" class="sidebar-item">
+              <span class="material-symbols-sharp">add</span>
+              <h3>إضافة شخص</h3>
+            </div>
+            <% } %>
+          </div>
+          
+          <div id="tab-content" class="hide">
+            <%- include('tabs/users.ejs', {user: admin}); %>
+            <%- include('tabs/students.ejs', {user: admin}); %>
+            <%- include('tabs/retirees.ejs', {user: admin}); %>
+            <%- include('tabs/workers.ejs', {user: admin}); %>
+            <%- include('tabs/add-user.ejs', {user: admin}); %>
+          </div>
+
+          <div id="tab-loading" class="loading show">
+            <div class="loading-box">
+              <img class="loading-img" src="<%= hostUrl %>/resources/admin/media->loading.gif">
+              <p class="loading-message"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if (admin.permissions.user.r) { %>
+        <div class="modal fade" id="view-user" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content form">
+              <div class="modal-header">
+                <h2 class="modal-title">عرض معلومات الفرد (#<span id="view-user-id"></span>)</h2>
+              </div>
+              <div class="modal-body">
+                <%- include('tabs/edit-user-form.ejs', {formData: {formId: 'view-user-'}}); %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" action="close">إلغاء</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+
+      <% if (admin.permissions.user.u) { %>
+      <div class="modal fade" id="edit-user" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content form">
+            <div class="modal-header">
+              <h2 class="modal-title">تعديل معلومات الفرد (#<span id="edit-user-id"></span>)</h2>
+            </div>
+            <div class="modal-body">
+              <%- include('tabs/edit-user-form.ejs', {formData: {formId: 'edit-user-'}}); %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" action="user-save-edit">حفض التغييرات</button>
+              <button type="button" class="btn btn-danger" action="close">إلغاء</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+      
+      <div class="modal fade" id="message-dialog-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content form">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="alerts" class="noties topright"></div>
+    </div>
+
+    <script src="<%= hostUrl %>/resources/admin/scripts->main.js"></script>
+    <script src="<%= hostUrl %>/resources/general/scripts->address-input->index.js"></script>
+    <script type="module" src="<%= hostUrl %>/resources/admin/scripts->dashboard.js"></script>
+    <script>
+      const families = JSON.parse('<%- JSON.stringify(families) %>');
+      var permissions = JSON.parse('<%- JSON.stringify(cryptoPermissions) %>');
+    </script>
+  </body>
+</html>

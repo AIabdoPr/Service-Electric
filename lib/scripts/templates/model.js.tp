@@ -1,0 +1,10 @@
+const Model = require("../..{{ dir }}/lib/pkgs/model");
+
+class {{ model_name }}Model extends Model {
+  
+  tb_name = "{{ tb_name }}";
+  columns = {{ columns }};
+
+}
+
+module.exports = {{ model_name }}Model
